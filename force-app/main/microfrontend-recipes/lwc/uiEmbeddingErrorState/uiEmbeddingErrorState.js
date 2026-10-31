@@ -87,7 +87,8 @@ export default class UiEmbeddingErrorState extends LightningElement {
   // The real cross-origin guest URL, which loads normally.
   get guestSrc() {
     const url = new URL(this.baseUrl);
-    url.pathname = "/embedding/basic-render";
+    // Append the route so a base URL with a path (CDN folder, UI bundle) keeps it.
+    url.pathname = `${url.pathname.replace(/\/+$/, "")}/embedding/basic-render`;
     return url.toString();
   }
 

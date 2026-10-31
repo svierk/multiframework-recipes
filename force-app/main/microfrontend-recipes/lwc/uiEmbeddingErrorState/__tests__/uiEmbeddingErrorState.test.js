@@ -80,4 +80,23 @@ describe("c-ui-embedding-error-state", () => {
       expect.objectContaining({ recordId: "001" })
     );
   });
+
+  it("keeps the path of the guest base URL", async () => {
+    const el = createElement("c-ui-embedding-error-state", {
+      is: UiEmbeddingErrorState
+    });
+    el.baseUrl = "https://cdn.example.com/recipes/";
+    el.recordId = "001";
+    document.body.appendChild(el);
+    // The real guest mounts once the broken one is toggled away.
+    el.shadowRoot
+      .querySelector("lightning-button")
+      .dispatchEvent(new CustomEvent("click"));
+    await Promise.resolve();
+
+    const embed = el.shadowRoot.querySelector("lightning-ui-embedding");
+    expect(embed.src).toBe(
+      "https://cdn.example.com/recipes/embedding/basic-render"
+    );
+  });
 });

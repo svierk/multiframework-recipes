@@ -142,7 +142,8 @@ export default class UiEmbeddingGraphqlData extends LightningElement {
 
   get computedSrc() {
     const url = new URL(this.baseUrl);
-    url.pathname = "/embedding/graphql-data";
+    // Append the route so a base URL with a path (CDN folder, UI bundle) keeps it.
+    url.pathname = `${url.pathname.replace(/\/+$/, "")}/embedding/graphql-data`;
     return url.toString();
   }
 

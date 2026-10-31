@@ -120,4 +120,18 @@ describe("c-ui-embedding-graphql-data", () => {
     expect(last().error).toBe("insufficient access");
     expect(last().contacts).toHaveLength(0);
   });
+
+  it("keeps the path of the guest base URL", async () => {
+    const el = createElement("c-ui-embedding-graphql-data", {
+      is: UiEmbeddingGraphqlData
+    });
+    el.baseUrl = "https://cdn.example.com/recipes/";
+    document.body.appendChild(el);
+    await Promise.resolve();
+
+    const embed = el.shadowRoot.querySelector("lightning-ui-embedding");
+    expect(embed.src).toBe(
+      "https://cdn.example.com/recipes/embedding/graphql-data"
+    );
+  });
 });

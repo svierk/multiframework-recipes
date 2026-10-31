@@ -39,4 +39,18 @@ describe("c-ui-embedding-basic-render", () => {
       website: "acme.example"
     });
   });
+
+  it("keeps the path of the guest base URL", async () => {
+    const el = createElement("c-ui-embedding-basic-render", {
+      is: UiEmbeddingBasicRender
+    });
+    el.baseUrl = "https://cdn.example.com/recipes/";
+    document.body.appendChild(el);
+    await Promise.resolve();
+
+    const embed = el.shadowRoot.querySelector("lightning-ui-embedding");
+    expect(embed.src).toBe(
+      "https://cdn.example.com/recipes/embedding/basic-render"
+    );
+  });
 });
